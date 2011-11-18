@@ -3,8 +3,8 @@
 use encoding 'utf8';
 
 use strict;
-use warnings;
-use diagnostics;
+#use warnings;
+#use diagnostics;
 
 package HTMLPage;
 use base 'HTML::Parser';
@@ -32,7 +32,7 @@ sub replace {
 
   my $count = $self->{'replacements_count'};
 
-  $self->parse(Encode::decode_utf8($self->{'html'}));
+  $self->parse($self->{'html'});
   $self->eof();
 
   return $self->{'replacements_count'} - $count;
