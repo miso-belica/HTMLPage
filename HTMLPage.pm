@@ -52,8 +52,7 @@ sub get_replacement {
 sub inject_word_into_replacement {
   my ($self, $word) = @_;
 
-  $word = lc($word);
-  my $replacement = $self->{'replacements'}{$word};
+  my $replacement = $self->{'replacements'}{lc($word)};
 
   $replacement =~ s/\{keyword\}/$word/;
   return $replacement;
