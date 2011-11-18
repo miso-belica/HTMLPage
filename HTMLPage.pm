@@ -28,7 +28,7 @@ sub replace {
   my ($self, $replacements) = @_;
 
   $self->{'replacements'} = $replacements;
-  $self->{'keyword_pattern'} = join('|', keys(%{$replacements}));
+  $self->{'keyword_pattern'} = lc(join('|', keys(%{$replacements})));
 
   my $count = $self->{'replacements_count'};
 
@@ -41,9 +41,8 @@ sub replace {
 sub get_replacement {
   my ($self, $text) = @_;
 
-  if($text =~ /^(\Q$self->{'keyword_pattern'}\E)$/i) {
-    print STDERR "$text\n\n";
-    my $replacements_count = $text =~ s/^($self->{'keyword_pattern'})$/$self->inject_word_into_replacement($1)/gie;
+  if($text =~ /\b(?:$self->{'keyword_pattern'})\b/i) {
+    my $replacements_count = $text =~ s/\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
     $self->{'replacements_count'} += $replacements_count;
   }
 
@@ -53,7 +52,9 @@ sub get_replacement {
 sub inject_word_into_replacement {
   my ($self, $word) = @_;
 
+  $word = lc($word);
   my $replacement = $self->{'replacements'}{$word};
+
   $replacement =~ s/\{keyword\}/$word/;
   return $replacement;
 }
