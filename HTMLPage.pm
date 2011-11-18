@@ -30,12 +30,12 @@ sub replace {
   $self->{'replacement'} = $replacement;
   $self->{'keyword'} = $keyword;
 
-  my $count = $instance->{'replacements_count'};
+  my $count = $self->{'replacements_count'};
 
   $self->parse(Encode::decode_utf8($self->{'html'}));
   $self->eof();
 
-  return $instance->{'replacements_count'} - $count;
+  return $self->{'replacements_count'} - $count;
 }
 
 sub get_replacement {
@@ -72,6 +72,11 @@ sub push_tag {
 
 sub pop_tag {
   my ($self, $tag) = @_;
+
+  # ignore end tags without start tag
+  if(!grep(/^$tag$/i, @{$self->{'tags_stack'}})) {
+    return;
+  }
 
   my $removed_tag = pop(@{$self->{'tags_stack'}});
   while($removed_tag ne $tag) {
