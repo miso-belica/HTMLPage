@@ -30,8 +30,12 @@ sub replace {
   $self->{'replacement'} = $replacement;
   $self->{'keyword'} = $keyword;
 
+  my $count = $instance->{'replacements_count'};
+
   $self->parse(Encode::decode_utf8($self->{'html'}));
   $self->eof();
+
+  return $instance->{'replacements_count'} - $count;
 }
 
 sub get_replacement {
