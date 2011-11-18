@@ -24,16 +24,6 @@ sub from_string {
   return $instance;
 }
 
-sub from_file {
-  my ($self, $file_path) = @_;
-
-  open(FILE, $file_path);
-  my $instance = $self->from_string(join('', <FILE>));
-  close(FILE);
-
-  return $instance;
-}
-
 sub replace {
   my ($self, $keyword, $replacement) = @_;
 
