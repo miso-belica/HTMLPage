@@ -20,6 +20,7 @@ sub from_string {
   $instance->{'parsed_html'} = '';
   $instance->{'tags_stack'} = [];
   $instance->{'replacements_count'} = 0;
+  $instance->{'words_replacement_count'} = {};
 
   return $instance;
 }
@@ -52,7 +53,13 @@ sub get_replacement {
 sub inject_word_into_replacement {
   my ($self, $word) = @_;
 
-  my $replacement = $self->{'replacements'}{lc($word)};
+  my $lower_cased_word = lc($word);
+  my $replacement = $self->{'replacements'}{$lower_cased_word};
+
+  if(!$self->{'words_replacement_count'}{$lower_cased_word}) {
+    $self->{'words_replacement_count'}{$lower_cased_word} = 0;
+  }
+  $self->{'words_replacement_count'}{$lower_cased_word} += 1;
 
   $replacement =~ s/\{keyword\}/$word/;
   return $replacement;

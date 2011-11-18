@@ -184,10 +184,11 @@ text-align: center;'></td>
 						<dt>Fórum</dt>
 						<dd class="topics">Témata</dd>
 						<dd class="posts">Příspěvky</dd>
-						<dd class="lastpost"><span>Poslední příspěvek</span></dd>
+						<dd class="lastpost"><span>Poslední příspěvek PePek</span></dd>
 					</dl>
 				</li>
 			</ul>
+      <p>čepice Čepice</p>
 			<ul class="topiclist forums">
 
 		<li class="row">
@@ -195,7 +196,7 @@ text-align: center;'></td>
 				<dt title="Žádné nové příspěvky">
 
 					<a href="./viewforum.php?f=9&amp;sid=e55570b3acff9f3e87742280f261561e" class="forumtitle">Základní informace, pravidla, questbook apod.</a><br />
-					<a href="http://www.toplist.cz/stat/1190842" target="_top"><img
+					<a href="http://www.toplist.cz/stat/1190842" target="_top">pepek<img
 src="http://toplist.cz/count.asp?id=1190842&logo=s" border="0" alt="TOPlist" width="14" height="14"/></a>
 
 				</dt>
@@ -770,6 +771,11 @@ $timer->start('parsing words');
 $page->replace($replacements);
 $timer->stop;
 $timer->report;
+
+my $word = '';
+foreach $word (keys(%{$page->{'words_replacement_count'}})) {
+  print STDERR "$word = ", $page->{'words_replacement_count'}{$word}, "\n";
+}
 
 $html = $page->get_html();
 print $html;
