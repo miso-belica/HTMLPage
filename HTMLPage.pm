@@ -17,18 +17,18 @@ sub from_string {
   my $instance = $self->SUPER::new();
 
   $instance->{'html'} = $html;
-  $instance->{'tags_stack'} = [];
   $instance->{'parsed_html'} = '';
+  $instance->{'tags_stack'} = [];
   $instance->{'replacements_count'} = 0;
 
   return $instance;
 }
 
 sub replace {
-  my ($self, $keyword, $replacement) = @_;
+  my ($self, $replacements) = @_;
 
-  $self->{'replacement'} = $replacement;
-  $self->{'keyword'} = $keyword;
+  $self->{'replacements'} = $replacements;
+  $self->{'keyword_pattern'} = join('|', keys(%{$replacements}));
 
   my $count = $self->{'replacements_count'};
 
@@ -41,9 +41,9 @@ sub replace {
 sub get_replacement {
   my ($self, $text) = @_;
 
-  my $keyword = $self->{'keyword'};
-  if($text =~ /\b\Q$keyword\E\b/i) {
-    my $replacements_count = $text =~ s/\b(\Q$keyword\E)\b/$self->inject_word_into_replacement($1)/gie;
+  if($text =~ /^(\Q$self->{'keyword_pattern'}\E)$/i) {
+    print STDERR "$text\n\n";
+    my $replacements_count = $text =~ s/^($self->{'keyword_pattern'})$/$self->inject_word_into_replacement($1)/gie;
     $self->{'replacements_count'} += $replacements_count;
   }
 
@@ -53,7 +53,7 @@ sub get_replacement {
 sub inject_word_into_replacement {
   my ($self, $word) = @_;
 
-  my $replacement = $self->{'replacement'};
+  my $replacement = $self->{'replacements'}{$word};
   $replacement =~ s/\{keyword\}/$word/;
   return $replacement;
 }

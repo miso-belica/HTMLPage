@@ -119,6 +119,8 @@ text-align: center;'></td>
 <body id="phpbb" class="section-index ltr">
 
 <div id="wrap">
+  pepek
+  ľščťžýáíéíáťžčťášň§ô§ú
 	<a id="top" name="top" accesskey="t"></a>
 	<div id="page-header">
 		<div class="headerbar">
@@ -354,7 +356,9 @@ src="http://toplist.cz/count.asp?id=1190842&logo=s" border="0" alt="TOPlist" wid
 </html>
 HTML
 
-my %replacements = (
+my $replacements = {
+  'pepek' => '<a href="pepekovo">{keyword}</a>',
+  'ľščťžýáíéíáťžčťášň§ô§ú' => '<a href="pepekovo">{keyword}</a>',
   '2011 (2012) bydlení kalkulačka na příspě' => '<a href="pepekovo">{keyword}</a>',
   '2011 bydlení kalkulačka na příspě' => '<a href="pepekovo">{keyword}</a>',
   '3D architekt' => '<a href="pepekovo">{keyword}</a>',
@@ -756,12 +760,7 @@ my %replacements = (
   'zubní ordinace' => '<a href="pepekovo">{keyword}</a>',
   'zubní ordinace Brno' => '<a href="pepekovo">{keyword}</a>',
   'židle' => '<a href="pepekovo">{keyword}</a>',
-);
-
-my $MAX_REPLACEMENTS_COUNT = 1;
-
-
-my $word = '';
+};
 
 my $timer = Benchmark::Timer->new();
 
@@ -770,14 +769,9 @@ my $page = HTMLPage->from_string($html);
 $timer->stop;
 
 $timer->start('parsing words');
-foreach $word (keys %replacements) {
-  $page->replace($word, $replacements{$word});
-  if($page->{'replacements_count'} >= $MAX_REPLACEMENTS_COUNT) {
-    last;
-  }
-}
+$page->replace($replacements);
 $timer->stop;
 $timer->report;
 
 $html = $page->get_html();
-#print $html;
+print $html;
