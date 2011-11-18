@@ -117,10 +117,8 @@ text-align: center;'></td>
 </head>
 
 <body id="phpbb" class="section-index ltr">
-
+<p>Ako taky pepek som tu. A tak sa tu (ľščťžýíáéíťážý) máme!</p>
 <div id="wrap">
-  pepek
-  ľščťžýáíéíáťžčťášň§ô§ú
 	<a id="top" name="top" accesskey="t"></a>
 	<div id="page-header">
 		<div class="headerbar">
@@ -358,7 +356,7 @@ HTML
 
 my $replacements = {
   'pepek' => '<a href="pepekovo">{keyword}</a>',
-  'ľščťžýáíéíáťžčťášň§ô§ú' => '<a href="pepekovo">{keyword}</a>',
+  'ľščťžýíáéíťážý' => '<a href="pepekovo">{keyword}</a>',
   '2011 (2012) bydlení kalkulačka na příspě' => '<a href="pepekovo">{keyword}</a>',
   '2011 bydlení kalkulačka na příspě' => '<a href="pepekovo">{keyword}</a>',
   '3D architekt' => '<a href="pepekovo">{keyword}</a>',
