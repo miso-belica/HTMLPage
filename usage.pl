@@ -687,6 +687,7 @@ my $replacements = {
   'židle' => '<a href="pepekovo">{keyword}</a>',
   'časem' => '<a href="pepekovo">{keyword}</a>',
   'měla bych' => '<a href="pepekovo">{keyword}</a>',
+  'černokněžníkovi' => '<a href="pepekovo">{keyword}</a>',
 };
 
 my $timer = Benchmark::Timer->new();
