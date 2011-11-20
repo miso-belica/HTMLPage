@@ -20,7 +20,7 @@ sub from_string {
   $instance->{'parsed_html'} = '';
   $instance->{'tags_stack'} = [];
   $instance->{'replacements_count'} = 0;
-  $instance->{'words_replacement_count'} = {};
+  $instance->{'word_replacements'} = [];
 
   return $instance;
 }
@@ -31,20 +31,19 @@ sub replace {
   $self->{'replacements'} = $replacements;
   $self->{'keyword_pattern'} = lc(join('|', keys(%{$replacements})));
 
-  my $count = $self->{'replacements_count'};
+  my $count = scalar @{$self->{'word_replacements'}};
 
   $self->parse($self->{'html'});
   $self->eof();
 
-  return $self->{'replacements_count'} - $count;
+  return scalar @{$self->{'word_replacements'}} - $count;
 }
 
 sub get_replacement {
   my ($self, $text) = @_;
 
   if($text =~ /\b(?:$self->{'keyword_pattern'})\b/i) {
-    my $replacements_count = $text =~ s/\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
-    $self->{'replacements_count'} += $replacements_count;
+    $text =~ s/\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
   }
 
   return $text;
@@ -54,13 +53,15 @@ sub inject_word_into_replacement {
   my ($self, $word) = @_;
 
   my $lower_cased_word = lc($word);
-  my $replacement = $self->{'replacements'}{$lower_cased_word};
 
-  if(!$self->{'words_replacement_count'}{$lower_cased_word}) {
-    $self->{'words_replacement_count'}{$lower_cased_word} = 0;
+  if(grep(/^$lower_cased_word$/, @{$self->{'word_replacements'}})) {
+    return $word;
   }
-  $self->{'words_replacement_count'}{$lower_cased_word} += 1;
 
+  push(@{$self->{'word_replacements'}}, $lower_cased_word);
+
+#  print STDERR "$lower_cased_word\n";
+  my $replacement = $self->{'replacements'}{$lower_cased_word};
   $replacement =~ s/\{keyword\}/$word/;
   return $replacement;
 }
