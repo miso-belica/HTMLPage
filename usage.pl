@@ -233,7 +233,7 @@ my $html = <<HTML;
 <p><span style="font-family: andale mono,times;"><span style="font-size: 12pt;">Až budu mít náladu trochu upravím stránky.</span></span></p>
 <p><span style="font-family: andale mono,times;"><span style="font-size: 12pt;">
 <hr />
-Otázky k ohledně datumů či neuvěřejněných povídek pište sem do komentářů :-) </span></span>
+OtÁzKy k ohledně datumů či neuvěřejněných povídek pište sem do komentářů :-) </span></span>
 <p><span style="font-family: andale mono,times;">&nbsp;</span></p>
 </p>
 <p><span style="font-family: andale mono,times;"></span></p><div class="jcomments-links"> <a href="/component/content/article/85-pidavani.html#comments" class="comments-link">Komentáře (37)</a> </div>
@@ -688,6 +688,8 @@ my $replacements = {
   'časem' => '<a href="pepekovo">{keyword}</a>',
   'měla bych' => '<a href="pepekovo">{keyword}</a>',
   'černokněžníkovi' => '<a href="pepekovo">{keyword}</a>',
+  'až' => '<a href="pepekovo">{keyword}</a>',
+  'otázky' => '<a href="pepekovo">{keyword}</a>',
 };
 
 my $timer = Benchmark::Timer->new();
