@@ -42,8 +42,8 @@ sub replace {
 sub get_replacement {
   my ($self, $text) = @_;
 
-  if($text =~ /\b(?:$self->{'keyword_pattern'})\b/i) {
-    $text =~ s/\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
+  if($text =~ /(?<!\.\s)\b(?:$self->{'keyword_pattern'})\b/i) {
+    $text =~ s/(?<!\.\s)\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
   }
 
   return $text;
