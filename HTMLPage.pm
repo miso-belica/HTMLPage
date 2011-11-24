@@ -3,8 +3,6 @@
 use encoding 'utf8';
 
 use strict;
-#use warnings;
-#use diagnostics;
 
 package HTMLPage;
 use base 'HTML::Parser';
