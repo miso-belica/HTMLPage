@@ -7,44 +7,64 @@ use strict;
 package HTMLPage;
 use base 'HTML::Parser';
 
+use constant MAX_REPLACEMENTS => 3;
+
 
 
 sub from_string {
-  my ($self, $html) = @_;
+  my ($class, $html) = @_;
 
-  my $instance = $self->SUPER::new();
+  my $self = $class->SUPER::new();
 
-  $instance->{'html'} = $html;
-  $instance->{'parsed_html'} = '';
-  $instance->{'tags_stack'} = [];
-  $instance->{'replacements_count'} = 0;
-  $instance->{'word_replacements'} = [];
+  $self->{'html'} = $html;
+  $self->{'parsed_html'} = '';
+  $self->{'tags_stack'} = [];
 
-  return $instance;
+  $self->{'word_replacements'} = [];
+  $self->{'all_words'} = [];
+
+  return $self;
 }
 
 sub replace {
-  my ($self, $replacements) = @_;
+  my ($self, $replacements, $scannes) = @_;
 
   $self->{'replacements'} = $replacements;
+  $self->{'scanned_words_pattern'} = join('|', @{$scannes});
   $self->{'keyword_pattern'} = lc(join('|', keys(%{$replacements})));
 
-  my $count = scalar @{$self->{'word_replacements'}};
+  my $count = $self->get_replacements_count();
 
   $self->parse($self->{'html'});
   $self->eof();
 
-  return scalar @{$self->{'word_replacements'}} - $count;
+  return $self->get_replacements_count() - $count;
 }
 
 sub get_replacement {
   my ($self, $text) = @_;
 
+  # replace keywords
   if($text =~ /(?<!\.\s)\b(?:$self->{'keyword_pattern'})\b/i) {
     $text =~ s/(?<!\.\s)\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
   }
 
+  # search for potential words
+  my @words = $text =~ /(?<!\.\s)\b($self->{'scanned_words_pattern'})\b/gi;
+  foreach (@words) {
+    my $word = lc($_);
+    if(!grep(/^$word$/, @{$self->{'all_words'}})) {
+      push(@{$self->{'all_words'}}, $word);
+    }
+  }
+
   return $text;
+}
+
+sub get_replacements_count {
+  my ($self) = @_;
+
+  return scalar @{$self->{'word_replacements'}}
 }
 
 sub inject_word_into_replacement {
@@ -52,10 +72,16 @@ sub inject_word_into_replacement {
 
   my $lower_cased_word = lc($word);
 
-  if(grep(/^$lower_cased_word$/, @{$self->{'word_replacements'}})) {
+  # replace every word only one time
+  if(grep(/^$lower_cased_word$/, @{$self->{'all_words'}})) {
     return $word;
   }
+  push(@{$self->{'all_words'}}, $lower_cased_word);
 
+  # replace max. "MAX_REPLACEMENTS" words
+  if($self->get_replacements_count() >= MAX_REPLACEMENTS) {
+    return $word;
+  }
   push(@{$self->{'word_replacements'}}, $lower_cased_word);
 
 #  print STDERR "$lower_cased_word\n";
