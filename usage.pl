@@ -329,6 +329,7 @@ my $replacements = {
   'lze vůbec vybrat' => '<a href="test-nahrady.html">{keyword}</a>',
   'špatném utkání' => '<a href="test-nahrady.html">{keyword}</a>',
   'klubu však zabodl' => '<a href="test-nahrady.html">{keyword}</a>',
+  'zázra' => => '<a href="test-nahrady.html">{keyword}</a>',
 };
 
 my $searches = [

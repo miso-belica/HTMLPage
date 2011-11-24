@@ -45,12 +45,12 @@ sub get_replacement {
   my ($self, $text) = @_;
 
   # replace keywords
-  if($text =~ /(?<!\.\s)\b(?:$self->{'keyword_pattern'})\b/i) {
-    $text =~ s/(?<!\.\s)\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
+  if($text =~ /(?<!\.\s)\b(?:(?:$self->{'keyword_pattern'})\w*)\b/i) {
+    $text =~ s/(?<!\.\s)\b(?:($self->{'keyword_pattern'})(\w*))\b/$self->inject_word_into_replacement($1, "$2")/gie;
   }
 
   # search for potential words
-  my @words = $text =~ /(?<!\.\s)\b($self->{'scanned_words_pattern'})\b/gi;
+  my @words = $text =~ /(?<!\.\s)\b(?:($self->{'scanned_words_pattern'})\w*)\b/gi;
   foreach (@words) {
     my $word = lc($_);
     if(!grep(/^$word$/, @{$self->{'all_words'}})) {
@@ -68,7 +68,7 @@ sub get_replacements_count {
 }
 
 sub inject_word_into_replacement {
-  my ($self, $word) = @_;
+  my ($self, $word, $suffix) = @_;
 
   my $lower_cased_word = lc($word);
 
@@ -86,6 +86,7 @@ sub inject_word_into_replacement {
 
 #  print STDERR "$lower_cased_word\n";
   my $replacement = $self->{'replacements'}{$lower_cased_word};
+  $word .= $suffix;
   $replacement =~ s/\{keyword\}/$word/;
   return $replacement;
 }
