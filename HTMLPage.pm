@@ -94,6 +94,11 @@ sub inject_word_into_replacement {
 sub get_html {
   my ($self) = @_;
 
+  if($self->{'parsed_html'} ne '') {
+    $self->{'html'} = $self->{'parsed_html'};
+    $self->{'parsed_html'} = '';
+  }
+
   return $self->{'html'};
 }
 
@@ -166,18 +171,6 @@ sub end {
 
   $self->pop_tag($tag);
   $self->{'parsed_html'} .= $origtext;
-
-  # method "end_document" is not called (bug?)
-  if($tag eq 'html') {
-    $self->end_document();
-  }
-}
-
-sub end_document {
-  my ($self) = @_;
-
-  $self->{'html'} = $self->{'parsed_html'};
-  $self->{'parsed_html'} = '';
 }
 
 1; # return true
