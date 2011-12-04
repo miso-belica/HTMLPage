@@ -30,8 +30,8 @@ sub replace {
   my ($self, $replacements, $scannes) = @_;
 
   $self->{'replacements'} = $replacements;
-  $self->{'scanned_words_pattern'} = join('|', @{$scannes});
-  $self->{'keyword_pattern'} = lc(join('|', keys(%{$replacements})));
+  $self->{'scanned_words_pattern'} = lc('(?:'.join(')|(?:', @{$scannes}).')');
+  $self->{'keyword_pattern'} = lc('(?:'.join(')|(?:', keys(%{$replacements})).')');
 
   my $count = $self->get_replacements_count();
 

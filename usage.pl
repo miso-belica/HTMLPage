@@ -7,6 +7,7 @@ use warnings;
 use diagnostics;
 use HTMLPage;
 use Benchmark::Timer;
+use Encode;
 
 
 
@@ -26,13 +27,14 @@ my $replacements = {
 my $searches = [
   'video',
   'chelsea',
+  'důkladn\w rozčešte'
 ];
 
 
 my $timer = Benchmark::Timer->new();
 
 $timer->start('creating page');
-my $page = HTMLPage->from_string($html);
+my $page = HTMLPage->from_string(Encode::decode_utf8($html));
 $timer->stop;
 
 
