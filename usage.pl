@@ -21,16 +21,18 @@ my $replacements = {
   'lze vůbec vybrat' => '<a href="test-nahrady.html">{keyword}</a>',
   'špatném utkání' => '<a href="test-nahrady.html">{keyword}</a>',
   'klubu však zabodl' => '<a href="test-nahrady.html">{keyword}</a>',
-  'zázra' => => '<a href="test-nahrady.html">{keyword}</a>',
+  'zázra\\w*' => '<a href="test-nahrady.html">{keyword}</a>',
+  'komplet\\w* péč\\w*' => '<a href="test-nahrady.html">{keyword}</a>',
 };
 
 my $searches = [
   'video',
   'chelsea',
-  'důkladn\w rozčešte'
+  'důkladn\\w* rozčešte'
 ];
 
 
+binmode(STDERR, ":utf8");
 my $timer = Benchmark::Timer->new();
 
 $timer->start('creating page');
@@ -44,7 +46,6 @@ $timer->stop;
 $timer->report;
 
 
-binmode(STDERR, ":utf8");
 
 print STDERR "---------- replacements -------\n";
 foreach my $word (@{$page->{'word_replacements'}}) {
