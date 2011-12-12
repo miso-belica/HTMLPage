@@ -82,7 +82,6 @@ sub inject_word_into_replacement {
   if($self->get_replacements_count() >= MAX_REPLACEMENTS) {
     return $word;
   }
-  push(@{$self->{'word_replacements'}}, $lower_cased_word);
 
 #   print STDERR "!!!$lower_cased_word!!!\n";
   my $replacement = $self->{'replacements'}{$lower_cased_word};
@@ -90,6 +89,7 @@ sub inject_word_into_replacement {
     return $word;
   }
 
+  push(@{$self->{'word_replacements'}}, $lower_cased_word);
   $replacement =~ s/\{keyword\}/$word/;
   return $replacement;
 }
