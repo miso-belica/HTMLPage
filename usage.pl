@@ -49,12 +49,12 @@ $timer->report;
 
 print STDERR "---------- replacements -------\n";
 foreach my $word (@{$page->{'word_replacements'}}) {
-  print STDERR "$word\n";
+  print STDERR ">>$word<<\n";
 }
 
 print STDERR "---------- all found -------\n";
 foreach my $word (@{$page->{'all_words'}}) {
-  print STDERR "$word\n";
+  print STDERR ">>$word<<\n";
 }
 
 
