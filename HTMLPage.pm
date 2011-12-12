@@ -53,7 +53,7 @@ sub get_replacement {
   my @words = $text =~ /(?<!\.\s)\b($self->{'scanned_words_pattern'})\b/gi;
   foreach (@words) {
     my $word = lc($_);
-    if(!grep(/^$word$/, @{$self->{'all_words'}})) {
+    if($word ne '' && !grep(/^$word$/, @{$self->{'all_words'}})) {
       push(@{$self->{'all_words'}}, $word);
     }
   }
