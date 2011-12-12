@@ -86,6 +86,10 @@ sub inject_word_into_replacement {
 
 #   print STDERR "!!!$lower_cased_word!!!\n";
   my $replacement = $self->{'replacements'}{$lower_cased_word};
+  if(!defined($replacement)) {
+    return $word;
+  }
+
   $replacement =~ s/\{keyword\}/$word/;
   return $replacement;
 }
