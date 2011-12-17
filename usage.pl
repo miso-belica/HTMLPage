@@ -26,6 +26,7 @@ my $replacements = {
   'dámsk\\w* mód\\w*' => '<a href="test-nahrady.html">{keyword}</a>',
   'oblečení' => '<a href="test-nahrady.html">{keyword}</a>',
   'křesl\\w*' => '<a href="test-nahrady.html">{keyword}</a>',
+  'nabíz\\w*' => '<a href="test-nahrady.html">{keyword}</a>',
 };
 
 my $searches = [
