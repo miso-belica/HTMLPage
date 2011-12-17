@@ -8,6 +8,7 @@ package HTMLPage;
 use base 'HTML::Parser';
 
 use constant MAX_REPLACEMENTS => 3;
+use constant EMPTY_PATTERN => '(?:)';
 
 
 
@@ -44,8 +45,8 @@ sub replace {
 sub get_replacement {
   my ($self, $text) = @_;
 
-  # replace keywords
-  if($text =~ /(?<!\.\s)\b(?:$self->{'keyword_pattern'})\b/i) {
+  # replace keywords, but only if there is at least one
+  if($self->{'keyword_pattern'} ne EMPTY_PATTERN && $text =~ /(?<!\.\s)\b(?:$self->{'keyword_pattern'})\b/i) {
     $text =~ s/(?<!\.\s)\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
   }
 
