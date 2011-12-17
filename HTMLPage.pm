@@ -86,12 +86,24 @@ sub inject_word_into_replacement {
 #   print STDERR "!!!$lower_cased_word!!!\n";
   my $replacement = $self->{'replacements'}{$lower_cased_word};
   if(!defined($replacement)) {
-    return $word;
+    $replacement = $self->find_replacement($lower_cased_word)
   }
 
   push(@{$self->{'word_replacements'}}, $lower_cased_word);
   $replacement =~ s/\{keyword\}/$word/;
   return $replacement;
+}
+
+sub find_replacement {
+  my ($self, $word) = @_;
+
+  foreach my $pattern (keys(%{$self->{'replacements'}})) {
+    if($word =~ /^$pattern$/) {
+      return $self->{'replacements'}{$pattern}
+    }
+  }
+
+  return '{keyword}';
 }
 
 sub get_html {
