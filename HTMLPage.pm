@@ -7,7 +7,7 @@ use strict;
 package HTMLPage;
 use base 'HTML::Parser';
 
-use constant MAX_REPLACEMENTS => 3;
+use constant MAX_REPLACEMENTS => 4;
 use constant EMPTY_PATTERN => '(?:)';
 
 
