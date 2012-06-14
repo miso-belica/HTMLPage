@@ -46,6 +46,7 @@ sub get_replacement {
   my ($self, $text) = @_;
 
   # replace keywords, but only if there is at least one
+  # replace only whole keywords but not begin of sentences
   if($self->{'keyword_pattern'} ne EMPTY_PATTERN && $text =~ /(?<!\.\s)\b(?:$self->{'keyword_pattern'})\b/i) {
     $text =~ s/(?<!\.\s)\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
   }
@@ -74,10 +75,10 @@ sub inject_word_into_replacement {
   my $lower_cased_word = lc($word);
 
   # replace every word only one time
-  if(grep(/^$lower_cased_word$/, @{$self->{'all_words'}})) {
-    return $word;
+  my $word_already_exists = grep(/^$lower_cased_word$/, @{$self->{'all_words'}});
+  if(!$word_already_exists) {
+    push(@{$self->{'all_words'}}, $lower_cased_word);
   }
-  push(@{$self->{'all_words'}}, $lower_cased_word);
 
   # replace max. "MAX_REPLACEMENTS" words
   if($self->get_replacements_count() >= MAX_REPLACEMENTS) {
@@ -89,6 +90,21 @@ sub inject_word_into_replacement {
   if(!defined($replacement)) {
     $replacement = $self->find_replacement($lower_cased_word)
   }
+
+  # choose from array of potential replacements
+  my $is_array = ref($replacement) eq 'ARRAY';
+  my $is_empty_array = $is_array && (scalar @{$replacement}) == 0;
+  if($is_empty_array) {
+    return $word;
+  }
+  elsif($is_array) {
+    $replacement = shift(@{$replacement});
+  }
+  # don't replace one URL twice
+  elsif($word_already_exists) {
+    return $word;
+  }
+  # print STDERR (ref $replacement) . " $replacement '" . int($is_empty_array) . "'\n";
 
   push(@{$self->{'word_replacements'}}, $lower_cased_word);
   $replacement =~ s/\{keyword\}/$word/;
