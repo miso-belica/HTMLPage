@@ -85,10 +85,10 @@ sub inject_word_into_replacement {
     return $word;
   }
 
-#   print STDERR "!!!$lower_cased_word!!!\n";
+  # print STDERR "!!!$lower_cased_word!!!\n";
   my $replacement = $self->{'replacements'}{$lower_cased_word};
   if(!defined($replacement)) {
-    $replacement = $self->find_replacement($lower_cased_word)
+    $replacement = $self->find_replacement($word)
   }
 
   # choose from array of potential replacements
@@ -115,7 +115,7 @@ sub find_replacement {
   my ($self, $word) = @_;
 
   foreach my $pattern (keys(%{$self->{'replacements'}})) {
-    if($word =~ /^$pattern$/) {
+    if($word =~ /^$pattern$/i) {
       return $self->{'replacements'}{$pattern}
     }
   }

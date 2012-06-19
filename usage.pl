@@ -17,19 +17,33 @@ close(FILE);
 
 
 my $replacements = {
-  'video' => '<a href="test-video.html">{keyword}</a>',
-  'lze vůbec vybrat' => '<a href="test-lze-vybrat.html">{keyword}</a>',
-  'špatném utkání' => '<a href="test-spatnem-utkani.html">{keyword}</a>',
-  'klubu však zabodl' => '<a href="test-klubu-zabodl.html">{keyword}</a>',
-  'zázra\\w*' => '<a href="test-zazra.html">{keyword}</a>',
-  'komplet\\w* péč\\w*' => '<a href="test-komplet-pec.html">{keyword}</a>',
-  'dámsk\\w* mód\\w*' => '<a href="test-damsk-mod.html">{keyword}</a>',
-  'oblečení' => '<a href="test-obleceni.html">{keyword}</a>',
-  'křesl\\w*' => '<a href="test-kresl.html">{keyword}</a>',
-  # 'nabíz\\w*' => '<a href="test-nabiz.html">{keyword}</a>',
+  'Nylofor' => [
+    '<a class="replaced" href="test-nylofor-1.html">{keyword}</a>',
+    '<a class="replaced" href="test-nylofor-2.html">{keyword}</a>',
+    '<a class="replaced" href="test-nylofor-3.html">{keyword}</a>',
+    '<a class="replaced" href="test-nylofor-4.html">{keyword}</a>',
+    '<a class="replaced" href="test-nylofor-5.html">{keyword}</a>',
+    '<a class="replaced" href="test-nylofor-6.html">{keyword}</a>',
+  ],
+  'Kontakt\\w*' => [
+    '<a class="replaced" href="test-kontakt-1.html">{keyword}</a>',
+    '<a class="replaced" href="test-kontakt-2.html">{keyword}</a>',
+    '<a class="replaced" href="test-kontakt-3.html">{keyword}</a>',
+    '<a class="replaced" href="test-kontakt-4.html">{keyword}</a>',
+  ],
+  'video' => '<a class="replaced" href="test-video.html">{keyword}</a>',
+  'lze vůbec vybrat' => '<a class="replaced" href="test-lze-vybrat.html">{keyword}</a>',
+  'špatném utkání' => '<a class="replaced" href="test-spatnem-utkani.html">{keyword}</a>',
+  'klubu však zabodl' => '<a class="replaced" href="test-klubu-zabodl.html">{keyword}</a>',
+  'zázra\\w*' => '<a class="replaced" href="test-zazra.html">{keyword}</a>',
+  'komplet\\w* péč\\w*' => '<a class="replaced" href="test-komplet-pec.html">{keyword}</a>',
+  'dámsk\\w* mód\\w*' => '<a class="replaced" href="test-damsk-mod.html">{keyword}</a>',
+  'oblečení' => '<a class="replaced" href="test-obleceni.html">{keyword}</a>',
+  'křesl\\w*' => '<a class="replaced" href="test-kresl.html">{keyword}</a>',
+  # 'nabíz\\w*' => '<a class="replaced" href="test-nabiz.html">{keyword}</a>',
   'nabíz\\w*' => [
-    '<a href="test-nabiz-novy-ako-slak_priorita.html">{keyword}</a>',
-    '<a href="test-nabiz.html">{keyword}</a>',
+    '<a class="replaced" href="test-nabiz-novy-ako-slak_priorita.html">{keyword}</a>',
+    '<a class="replaced" href="test-nabiz.html">{keyword}</a>',
   ],
 };
 
