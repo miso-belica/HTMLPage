@@ -94,6 +94,7 @@ sub inject_word_into_replacement {
   # choose from array of potential replacements
   my $is_array = ref($replacement) eq 'ARRAY';
   my $is_empty_array = $is_array && (scalar @{$replacement}) == 0;
+  # print STDERR (ref $replacement) . " $replacement '" . int($is_empty_array) . "'\n";
   if($is_empty_array) {
     return $word;
   }
@@ -104,7 +105,6 @@ sub inject_word_into_replacement {
   elsif($word_already_exists) {
     return $word;
   }
-  # print STDERR (ref $replacement) . " $replacement '" . int($is_empty_array) . "'\n";
 
   push(@{$self->{'word_replacements'}}, $lower_cased_word);
   $replacement =~ s/\{keyword\}/$word/;
