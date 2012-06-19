@@ -159,7 +159,7 @@ sub in_illegal_tag {
   # print STDERR '--> ', join(' | ', @{$self->{'tags_stack'}}), "\n";
 
   # illegal tags: head, a, h#, script, option, textarea
-  return grep(/^(?:head|a|h\d?|script|option|textarea)$/, @{$self->{'tags_stack'}});
+  return grep(/^(?:head|a|h\d?|script|option|textarea)$/i, @{$self->{'tags_stack'}});
 }
 
 sub process {
