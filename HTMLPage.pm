@@ -28,8 +28,9 @@ sub from_string {
 }
 
 sub replace {
-  my ($self, $replacements, $scannes) = @_;
+  my ($self, $replacements, $scannes, $separator) = @_;
 
+  $self->{'separator'} = $separator;
   $self->{'replacements'} = $replacements;
   $self->{'scanned_words_pattern'} = lc('(?:'.join(')|(?:', @{$scannes}).')');
   $self->{'keyword_pattern'} = lc('(?:'.join(')|(?:', keys(%{$replacements})).')');
@@ -87,12 +88,21 @@ sub inject_word_into_replacement {
 
   # print STDERR "!!!$lower_cased_word!!!\n";
   my $replacement = $self->{'replacements'}{$lower_cased_word};
+  my $keyword_key = $lower_cased_word;
   if(!defined($replacement)) {
-    $replacement = $self->find_replacement($word)
+    ($keyword_key, $replacement) = $self->find_replacement($word)
+  }
+
+  my $is_array = ref($replacement) eq 'ARRAY';
+  # test if there are multiple replacements and store them as array reference
+  if(!$is_array && index($replacement, $self->{'separator'}) != -1) {
+    my @splitted_replacements = split($self->{'separator'}, $replacement);
+    $replacement = \@splitted_replacements;
+    $self->{'replacements'}{$keyword_key} = $replacement;
+    $is_array = 1;  # TRUE
   }
 
   # choose from array of potential replacements
-  my $is_array = ref($replacement) eq 'ARRAY';
   my $is_empty_array = $is_array && (scalar @{$replacement}) == 0;
   # print STDERR (ref $replacement) . " $replacement '" . int($is_empty_array) . "'\n";
   if($is_empty_array) {
@@ -116,7 +126,7 @@ sub find_replacement {
 
   foreach my $pattern (keys(%{$self->{'replacements'}})) {
     if($word =~ /^$pattern$/i) {
-      return $self->{'replacements'}{$pattern}
+      return ($pattern, $self->{'replacements'}{$pattern})
     }
   }
 
