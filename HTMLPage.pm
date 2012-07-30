@@ -117,7 +117,7 @@ sub inject_word_into_replacement {
   }
 
   push(@{$self->{'word_replacements'}}, $lower_cased_word);
-  $replacement =~ s/\{keyword\}/$word/;
+  $replacement =~ s/\{keyword\}/$word/g;
   return $replacement;
 }
 

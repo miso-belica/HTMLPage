@@ -44,6 +44,9 @@ my $replacements = {
   'nabíz\\w*' =>
     '<a class="replaced" href="test-nabiz-novy-ako-slak_priorita.html">{keyword}</a>' . SEPARATOR .
     '<a class="replaced" href="test-nabiz.html">{keyword}</a>',
+  'hydin\\w*' =>
+    '<a class="replaced" href="hydina-1">{keyword}</a>' . '####' .
+    '<a class="replaced" href="hydina-2">{keyword}</a>'
 };
 
 my $searches = [
