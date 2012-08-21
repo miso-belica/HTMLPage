@@ -22,6 +22,7 @@ sub from_string {
   $self->{'tags_stack'} = [];
 
   $self->{'word_replacements'} = [];
+  $self->{'replaced_snippets'} = [];
   $self->{'all_words'} = [];
 
   return $self;
@@ -118,6 +119,7 @@ sub inject_word_into_replacement {
 
   push(@{$self->{'word_replacements'}}, $lower_cased_word);
   $replacement =~ s/\{keyword\}/$word/g;
+  push(@{$self->{'replaced_snippets'}}, $replacement);
   return $replacement;
 }
 

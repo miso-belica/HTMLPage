@@ -72,13 +72,17 @@ $timer->report;
 
 
 print STDERR "---------- replacements -------\n";
-foreach my $word (@{$page->{'word_replacements'}}) {
-  print STDERR ">>$word<<\n";
+my @replacements = @{$page->{'word_replacements'}};
+my @snippets = @{$page->{'replaced_snippets'}};
+for my $index (0 .. $page->get_replacements_count() - 1) {
+  my $word = $replacements[$index];
+  my $snippet = $snippets[$index];
+  print STDERR "$word:   $snippet\n";
 }
 
 print STDERR "---------- all found -------\n";
 foreach my $word (@{$page->{'all_words'}}) {
-  print STDERR ">>$word<<\n";
+  print STDERR "$word\n";
 }
 
 
