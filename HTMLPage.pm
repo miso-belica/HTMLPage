@@ -49,8 +49,8 @@ sub get_replacement {
 
   # replace keywords, but only if there is at least one
   # replace only whole keywords but not begin of sentences
-  if($self->{'keyword_pattern'} ne EMPTY_PATTERN && $text =~ /(?<!\.\s)\b(?:$self->{'keyword_pattern'})\b/i) {
-    $text =~ s/(?<!\.\s)\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gie;
+  if($self->{'keyword_pattern'} ne EMPTY_PATTERN && $text =~ /(?<!\.\s)\b(?:$self->{'keyword_pattern'})\b/io) {
+    $text =~ s/(?<!\.\s)\b($self->{'keyword_pattern'})\b/$self->inject_word_into_replacement($1)/gieo;
   }
 
   # search for potential words
@@ -118,16 +118,17 @@ sub inject_word_into_replacement {
   }
 
   push(@{$self->{'word_replacements'}}, $lower_cased_word);
-  $replacement =~ s/\{keyword\}/$word/g;
+  $replacement =~ s/\Q{keyword}\E/$word/g;
   push(@{$self->{'replaced_snippets'}}, $replacement);
   return $replacement;
 }
 
 sub find_replacement {
   my ($self, $word) = @_;
+  $word = lc $word;
 
   foreach my $pattern (keys(%{$self->{'replacements'}})) {
-    if($word =~ /^$pattern$/i) {
+    if($word =~ /^$pattern$/) {
       return ($pattern, $self->{'replacements'}{$pattern})
     }
   }
@@ -149,14 +150,15 @@ sub get_html {
 sub push_tag {
   my ($self, $tag) = @_;
 
-  push(@{$self->{'tags_stack'}}, $tag);
+  push(@{$self->{'tags_stack'}}, lc $tag);
 }
 
 sub pop_tag {
   my ($self, $tag) = @_;
+  $tag = lc $tag;
 
   # ignore end tags without start tag
-  if(!grep(/^$tag$/i, @{$self->{'tags_stack'}})) {
+  if(!grep(/^$tag$/, @{$self->{'tags_stack'}})) {
     return;
   }
 
@@ -170,8 +172,7 @@ sub in_illegal_tag {
   my ($self) = @_;
   # print STDERR '--> ', join(' | ', @{$self->{'tags_stack'}}), "\n";
 
-  # illegal tags: head, a, h#, script, option, textarea
-  return grep(/^(?:head|a|h\d?|script|option|textarea)$/i, @{$self->{'tags_stack'}});
+  return grep(/^(?:a|h\d?|head|script|option|textarea)$/io, @{$self->{'tags_stack'}});
 }
 
 sub process {
