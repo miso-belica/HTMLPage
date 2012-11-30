@@ -133,7 +133,7 @@ sub find_replacement {
     }
   }
 
-  return '{keyword}';
+  return ('', '{keyword}');
 }
 
 sub get_html {
