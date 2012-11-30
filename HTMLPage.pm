@@ -91,7 +91,7 @@ sub inject_word_into_replacement {
   my $replacement = $self->{'replacements'}{$lower_cased_word};
   my $keyword_key = $lower_cased_word;
   if(!defined($replacement)) {
-    ($keyword_key, $replacement) = $self->find_replacement($word)
+    ($keyword_key, $replacement) = $self->find_replacement($word);
   }
 
   my $is_array = ref($replacement) eq 'ARRAY';
@@ -129,7 +129,7 @@ sub find_replacement {
 
   foreach my $pattern (keys(%{$self->{'replacements'}})) {
     if($word =~ /^$pattern$/) {
-      return ($pattern, $self->{'replacements'}{$pattern})
+      return ($pattern, $self->{'replacements'}{$pattern});
     }
   }
 
