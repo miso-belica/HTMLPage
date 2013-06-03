@@ -69,7 +69,10 @@ eval {
   $page->replace($replacements, $searches, SEPARATOR);
   $timer->stop;
 };
-if(!$@) {
+if(my $e = $@) {
+  print STDERR "Logging of unexpected exception: ", $e;
+}
+else {
   $html = $page->get_html();
 }
 
