@@ -60,15 +60,21 @@ binmode(STDERR, ":utf8");
 my $timer = Benchmark::Timer->new();
 
 $timer->start('creating page');
-my $page = HTMLPage->from_string(Encode::decode_utf8($html));
+$html = Encode::decode_utf8($html);
+my $page = HTMLPage->from_string($html);
 $timer->stop;
 
+eval {
+  $timer->start('parsing words');
+  $page->replace($replacements, $searches, SEPARATOR);
+  $timer->stop;
+};
+if(!$@) {
+  $html = $page->get_html();
+}
 
-$timer->start('parsing words');
-$page->replace($replacements, $searches, SEPARATOR);
-$timer->stop;
 $timer->report;
-
+print $html;
 
 
 print STDERR "---------- replacements -------\n";
@@ -84,7 +90,3 @@ print STDERR "---------- all found -------\n";
 foreach my $word (@{$page->{'all_words'}}) {
   print STDERR "$word\n";
 }
-
-
-$html = $page->get_html();
-print $html;
