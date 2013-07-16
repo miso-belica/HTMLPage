@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-use encoding 'utf8';
+use utf8;
 
 use strict;
 use warnings;
@@ -57,6 +57,7 @@ my $searches = [
 
 
 binmode(STDERR, ":utf8");
+binmode(STDOUT, ":utf8");
 my $timer = Benchmark::Timer->new();
 
 $timer->start('creating page');
