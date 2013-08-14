@@ -46,7 +46,16 @@ my $replacements = {
     '<a class="replaced" href="test-nabiz.html">{keyword}</a>',
   'hydin\\w*' =>
     '<a class="replaced" href="hydina-1">{keyword}</a>' . '####' .
-    '<a class="replaced" href="hydina-2">{keyword}</a>'
+    '<a class="replaced" href="hydina-2">{keyword}</a>',
+  'o’neill' => '<a class="replaced" href="test-regexp.html">{keyword}</a>',
+  'dolce & gabbana' => '<a class="replaced" href="test-regexp.html">{keyword}</a>',
+  'croc´s' => '<a class="replaced" href="test-regexp.html">{keyword}</a>',
+  'traction 17,5“ 2012' => '<a class="replaced" href="test-regexp.html">{keyword}</a>',
+  'aslı çakır alptekinová' => '<a class="replaced" href="test-regexp.html">{keyword}</a>',
+  'petr rezek (zpěvák)' => '<a class="replaced" href="test-regexp.html">{keyword}</a>',
+  'black+blum' => '<a class="replaced" href="test-regexp.html">{keyword}</a>',
+  '!solid' => '<a class="replaced" href="test-regexp.html">{keyword}</a>',
+  'smash!' => '<a class="replaced" href="test-regexp.html">{keyword}</a>',
 };
 
 my $searches = [
